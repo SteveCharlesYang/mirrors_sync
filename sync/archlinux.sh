@@ -1,8 +1,8 @@
 #!/bin/bash
 
 sync_path="/mirrors"
-sync_url="rsync://mirrors.tuna.tsinghua.edu.cn"
-sync_name="ctex"
+sync_url="rsync://rsync.mirrors.ustc.edu.cn/repo"
+sync_name="archlinux"
 
 if [ `cat "$sync_path/status/$sync_name"` = "normal" ] ; then
 	echo "syncing" > "$sync_path/status/$sync_name"
