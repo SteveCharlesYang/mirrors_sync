@@ -1,0 +1,36 @@
+#!/bin/bash
+#
+# An example hook script to prepare a packed repository for use over
+# dumb transports.
+#
+# To enable this hook, rename this file to "post-update".
+
+systemd_loc=~/.config/systemd/user
+
+template_service=rsync
+template_timer=timer.template
+
+for m_conf in ./sync/*
+do
+	if [ -f "$m_conf" ] && [[ "${m_conf##*/}" != 'rsync_common.sh' ]] && [[ "${m_conf##*.}" == 'sh' ]]
+	then
+		echo "Loading config for [$(basename $m_conf .sh)]"
+		calendar=$(cat "sync/$(basename $m_conf)"| grep -P '# calendar=' | sed 's/# calendar=//g')
+		interval=$(cat "sync/$(basename $m_conf)"| grep -P '# interval=' | sed 's/# interval=//g')
+		unitfile=$systemd_loc/$(basename $m_conf .sh).timer
+		if [ -f $unitfile ]
+		then
+			rm "$unitfile"
+		fi
+		cp sync/timer.template "$unitfile"
+		sed -i "s/{NAME}/$(basename $m_conf .sh)/g" "$unitfile"
+		if [[ "$interval" != "" ]]
+		then
+			sed -i "s/#{INTERVAL}/$interval/g" "$unitfile"
+		fi
+		if [[ "$calendar" != "" ]]
+		then
+			sed -i "s/#{CALENDAR}/$calendar/g" "$unitfile"
+		fi
+	fi
+done

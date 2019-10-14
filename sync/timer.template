@@ -1,0 +1,10 @@
+[Unit]
+Description=Rsync for {NAME}
+
+[Timer]
+OnCalendar=#{CALENDAR}
+OnUnitActive=#{INTERVAL}
+Unit=rsync@{NAME}.service
+
+[Install]
+WantedBy=multi-user.target
