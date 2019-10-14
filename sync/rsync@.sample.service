@@ -1,0 +1,14 @@
+[Unit]
+Description=Rsync Service for %i
+
+[Service]
+PIDFile=/run/rsync.%i.pid
+WorkingDirectory=/home/charles/pub_projects/mirrors_sync/sync
+ExecReload=/bin/kill -HUP $MAINPID
+ExecStart=/bin/bash /home/charles/pub_projects/mirrors_sync/sync/%i.sh
+Type=simple
+KillMode=mixed
+Restart=on-failure
+RestartSec=60s
+
+

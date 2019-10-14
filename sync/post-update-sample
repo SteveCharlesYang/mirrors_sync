@@ -22,7 +22,7 @@ do
 		then
 			rm "$unitfile"
 		fi
-		cp sync/timer.template "$unitfile"
+		cp "sync/$template_timer" "$unitfile"
 		sed -i "s/{NAME}/$(basename $m_conf .sh)/g" "$unitfile"
 		if [[ "$interval" != "" ]]
 		then

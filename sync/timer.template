@@ -3,7 +3,7 @@ Description=Rsync for {NAME}
 
 [Timer]
 OnCalendar=#{CALENDAR}
-OnUnitActive=#{INTERVAL}
+OnUnitActiveSec=#{INTERVAL}
 Unit=rsync@{NAME}.service
 
 [Install]
